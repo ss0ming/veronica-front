@@ -7,19 +7,34 @@ function useUser() {
     useEffect(() => {
         const getUser = async () => {
             try {
-                const response = await fetch(API_ONE_USER)
-                if (response && response.data) {
-                    setUser(response.data)
-                } else {
-                    console.log("failed to fetch user data")
+                const token = localStorage.getItem('accessToken');
+                if (!token) {
+                    console.log("No access token found");
+                    return;
                 }
-            }
-            catch (error) {"API 호출 실패 : ", error.message}
-        }
-        getUser()
-    }, [])
 
-    return ({user})
+                const response = await fetch(API_ONE_USER, {
+                    method: 'GET',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    }
+                });
+
+                if (response.ok) {
+                    const data = await response.json();
+                    setUser(data);
+                } else {
+                    console.log("failed to fetch user data");
+                }
+            } catch (error) {
+                console.error("API 호출 실패: ", error.message);
+            }
+        };
+        getUser();
+    }, []);
+
+    return { user };
 }
 
-export default useUser
+export default useUser;

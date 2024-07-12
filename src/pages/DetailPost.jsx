@@ -8,6 +8,7 @@ import CommentList from '../components/CommentList.jsx';
 import { API_POST, API_COMMENT } from '../config.js';
 import axiosInstance from '../api/axios.js';
 import { formatDate } from '../util/format-date.js';
+import useUser from '../hooks/useUser.jsx';
 
 
 function DetailPost() {
@@ -15,6 +16,7 @@ function DetailPost() {
     const [selectedItemId, setSelectedItemId] = useState(null) // (item) 댓글 삭제버튼 누르면, 누른 그 댓글의 Id를 state에 저장해서 api요청보내기 
     const [selectedItemType, setSelectedItemType] = useState(null) // 글인지 댓글인지
     const [post, setPost] = useState(null)
+    const { user } = useUser();
     const nav = useNavigate();
     const { postId } = useParams();
 
@@ -22,7 +24,6 @@ function DetailPost() {
         const fetchPost = async () => {
             try {
                 const url = API_POST.replace(':postId', postId);
-                console.log(url)
                 const response = await axiosInstance.get(url);
 
                 if (response.status === 200) {
@@ -41,6 +42,7 @@ function DetailPost() {
                         userImage: data.profileimage
                     }
                     setPost(mappedData);
+                    console.log('userId : ', mappedData.userId)
 
                 } else {
                     console.error('게시물을 불러오는데 실패했습니다.');
@@ -97,12 +99,14 @@ function DetailPost() {
                 <div className='post-title'>{post?.title}</div>
                 <div className='info-section'>
                     <div className='user-img'>
-                        {userImageUrl && <img src={userImageUrl}/>}
+                        <img src={userImageUrl} alt="user"/>
                     </div>
                     <div className='user-nickname'>{post?.nickname}</div>
                     <div className='create-date'>{post?.createdAt ? formatDate(post.createdAt) : ''}</div>
                     <div style={{marginLeft: "auto"}}>
-                        <PostUpdateDeleteBtn onClick={() => handleOpenModal(post?.postId, 'post')} />
+                        {user?.email === post?.userId && (
+                            <PostUpdateDeleteBtn onClick={() => handleOpenModal(post?.postId, 'post')} />
+                        )}
                         {isModalShow && selectedItemType === 'post' && (
                             <Modal
                                 modalTitle="게시글을 삭제하시겠습니까?"

@@ -46,13 +46,18 @@ function NewPost() {
 
         if (isFormValid) {
             try {
+                const token = localStorage.getItem("accessToken")
                 const postPayload = {
                     title,
                     content,
                     image
                 };
 
-                await axios.post(API_POSTS, postPayload);
+                await axios.post(API_POSTS, postPayload, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                });
                 alert("게시글이 등록되었습니다.")
                 nav("/posts");
             } catch (error) {
