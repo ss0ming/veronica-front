@@ -12,7 +12,7 @@ export const API_USERS = "http://localhost:8080/api/user"
 export const API_SIGN_UP = "http://localhost:8080/api/user/sign-up"
 export const API_PROFILE = "http://localhost:8080/api/user/nickname"
 export const API_PASSWORD = "http://localhost:8080/api/user/password"
-export const API_USER_IMAGE = "http://localhost:8080/api/user"
+export const API_USER_IMAGE = "http://localhost:8080/api/user/image"
 
 
 //posts
