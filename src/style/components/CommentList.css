@@ -1,0 +1,60 @@
+.CommentList{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+}
+.comment-wrapper{
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    margin: 10px 0;
+}
+.comment-box{
+    flex-grow: 8;
+    display: flex;
+    flex-direction: column;
+    padding-left: 20px;
+}
+.comment-info{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+}
+.comment-info > img{
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+}
+.comment-user-nickname{
+    font-size: 15px;
+    font-weight: 700;
+    margin: 0 15px;
+    width: 30%;
+}
+.comment-date{
+    font-size: 14px;
+    font-weight: 400;
+}
+.comment-content{
+    font-size: 15px;
+    font-weight: 400;
+    margin-top: 15px;
+    margin-bottom: 15px;
+    margin-left: 55px;
+}
+
+.button-box{
+    flex: 1;
+    display: flex;
+    margin-right: 10px;
+
+    opacity: 0;
+    transition: opacity 0.3s ease
+}
+
+.comment-wrapper:hover .button-box {
+    opacity: 1; /* comment-wrapper에 호버 시 버튼을 보이게 설정 */
+}
