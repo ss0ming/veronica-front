@@ -16,6 +16,7 @@ function CommentList({ postId, onOpenModal }) {
 
                 if (response.status === 200) {
                     const data = response.data;
+                    console.log(data)
 
                     const mappedComments = data.map(comment => ({
                         commentId: comment.commentId,
@@ -25,6 +26,7 @@ function CommentList({ postId, onOpenModal }) {
                         comment: comment.content
                     }));
                     setComments(mappedComments);
+                    
                 } else {
                     console.error('댓글을 불러오는데 실패했습니다.');
                 }

@@ -158,7 +158,12 @@ function DetailPost() {
                 </div>
                 <hr style={{ border: "0.5px solid rgb(0,0,0,0.16)", width: "100%" }} />
                 <div className='comment-section'>
-                    <textarea className='comment' placeholder='댓글을 남겨주세요'></textarea>
+                    <textarea
+                        className='comment'
+                        placeholder='댓글을 남겨주세요'
+                        value={comment}
+                        onChange={(e) => setComment(e.target.value)}
+                    ></textarea>
                     <div className='comment-button'>
                         <PurpleShortBtn ButtonName="댓글 등록" onClick={handleAddComment}/>
                     </div>
