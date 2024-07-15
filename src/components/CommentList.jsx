@@ -4,9 +4,11 @@ import { formatDate } from "../util/format-date.js";
 import { useEffect, useState } from "react";
 import axiosInstance from "../api/axios.js";
 import { API_COMMENTS } from "../config.js";
+import useUser from "../hooks/useUser.jsx";
 
 function CommentList({ postId, onOpenModal }) {
     const [comments, setComments] = useState([]);
+    const { user } = useUser();
 
     useEffect(() => {
         const fetchComments = async () => {
@@ -20,6 +22,7 @@ function CommentList({ postId, onOpenModal }) {
 
                     const mappedComments = data.map(comment => ({
                         commentId: comment.commentId,
+                        email: comment.email,
                         userImage: comment.userImage,
                         nickname: comment.nickname,
                         createdAt: comment.createdAt,
@@ -38,6 +41,7 @@ function CommentList({ postId, onOpenModal }) {
         fetchComments();
     }, [postId]);
 
+
     return (
         <div className="CommentList">
             {comments.map(comment => (
@@ -52,9 +56,11 @@ function CommentList({ postId, onOpenModal }) {
                             <div className="comment-text">{comment.comment}</div>
                         </div>
                     </div>
-                    <div className="button-box">
-                        <CommentUpdateDeleteBtn onClick={() => onOpenModal(comment.commentId, 'comment')}/>
-                    </div>
+                    {user?.email === comment.email && (
+                        <div className="button-box">
+                            <CommentUpdateDeleteBtn onClick={() => onOpenModal(comment.commentId, 'comment')}/>
+                        </div>
+                    )}
                 </div>
             ))}
         </div>
