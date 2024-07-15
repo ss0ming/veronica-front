@@ -5,7 +5,7 @@ import Header from '../components/Header.jsx';
 import Modal from '../components/Modal.jsx';
 import { PostUpdateDeleteBtn, PurpleShortBtn } from '../components/Button.jsx';
 import CommentList from '../components/CommentList.jsx';
-import { API_POST, API_COMMENT } from '../config.js';
+import { API_POST, API_COMMENT, API_COMMENTS } from '../config.js';
 import axiosInstance from '../api/axios.js';
 import { formatDate } from '../util/format-date.js';
 import useUser from '../hooks/useUser.jsx';
@@ -16,6 +16,7 @@ function DetailPost() {
     const [selectedItemId, setSelectedItemId] = useState(null) // (item) 댓글 삭제버튼 누르면, 누른 그 댓글의 Id를 state에 저장해서 api요청보내기 
     const [selectedItemType, setSelectedItemType] = useState(null) // 글인지 댓글인지
     const [post, setPost] = useState(null)
+    const [comment, setComment] = useState('');
     const { user } = useUser();
     const nav = useNavigate();
     const { postId } = useParams();
@@ -94,6 +95,30 @@ function DetailPost() {
         }
     }
 
+    const handleAddComment = async () => {
+        try {
+            const token = localStorage.getItem('accessToken');
+            const headers = {
+                Authorization: `Bearer ${token}`,
+                'Content-Type': 'application/json'
+            };
+
+            const commentData = {
+                content: comment
+            };
+
+            const url = API_COMMENTS.replace(':postId', post?.postId);
+            await axiosInstance.post(url, commentData, { headers });
+            alert('댓글이 등록되었습니다.');
+            setComment('');
+            window.location.reload();
+        } catch (error) {
+            console.error('댓글 등록 중 오류가 발생했습니다:', error);
+            alert('댓글 등록 중 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
+        }
+    };
+
+
     const userImageUrl = post?.userImage ? `data:image/png;base64,${post.userImage}` : null;
     const postImageUrl = post?.postImage ? `data:image/png;base64,${post.postImage}` : null;
 
@@ -135,10 +160,10 @@ function DetailPost() {
                 <div className='comment-section'>
                     <textarea className='comment' placeholder='댓글을 남겨주세요'></textarea>
                     <div className='comment-button'>
-                        <PurpleShortBtn ButtonName="댓글 등록"/>
+                        <PurpleShortBtn ButtonName="댓글 등록" onClick={handleAddComment}/>
                     </div>
                 </div>
-                {/* <CommentList postId={post.postId} onOpenModal={handleOpenModal} />
+                {post && <CommentList postId={post?.postId} onOpenModal={handleOpenModal} />}
                 {isModalShow && selectedItemType === 'comment' && (
                             <Modal
                                 modalTitle="댓글을 삭제하시겠습니까?"
@@ -146,7 +171,7 @@ function DetailPost() {
                                 onClose={handleCloseModal}
                                 onConfirm={handleDelete}
                             />
-                        )} */}
+                        )}
             </div>
         </>
     );
