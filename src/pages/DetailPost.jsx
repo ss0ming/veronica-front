@@ -81,8 +81,8 @@ function DetailPost() {
                 alert('게시글이 삭제되었습니다.')
                 nav('/posts')
             } else if (selectedItemType === 'comment') {
-                const commentUrl = API_COMMENT.replace(':postId', post.postId).replace(':commentId', selectedItemId)
-                await axiosInstance.delete(commentUrl)
+                const commentUrl = API_COMMENT.replace(':postId', post?.postId).replace(':commentId', selectedItemId)
+                await axiosInstance.delete(commentUrl, {headers})
                 alert('댓글이 삭제되었습니다.')
                 window.location.reload() // 하는게 맞나 ....
             }
