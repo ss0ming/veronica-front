@@ -67,9 +67,14 @@ function NewPost() {
         if (validation.isValid) {
             try {
                 const url = API_POST.replace(':postId', postId)
-                const postPayload = { title, content, image}
+                const postPayload = { title, content, image }
+                const token = localStorage.getItem('accessToken')
 
-                await axios.patch(url, postPayload)
+                await axios.put(url, postPayload, {
+                    headers: {
+                        Authorization: `Bearer ${token}`
+                    }
+                })
                 alert("게시글이 수정되었습니다.")
                 nav("/posts")
             } catch (error) {
