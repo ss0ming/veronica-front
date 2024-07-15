@@ -70,8 +70,13 @@ function DetailPost() {
     //삭제 모달
     const handleDelete = async() => {
         try {
+            const token = localStorage.getItem('accessToken')
+            const headers = {
+                Authorization: `Bearer ${token}`
+            }
+
             if (selectedItemType === 'post') {
-                await axiosInstance.delete(API_POST.replace(':postId', selectedItemId))
+                await axiosInstance.delete(API_POST.replace(':postId', selectedItemId), {headers})
                 alert('게시글이 삭제되었습니다.')
                 nav('/posts')
             } else if (selectedItemType === 'comment') {
