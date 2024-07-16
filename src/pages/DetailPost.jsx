@@ -29,7 +29,7 @@ function DetailPost() {
 
                 if (response.status === 200) {
                     const data = response.data;
-
+                    console.log(data);
                     const mappedData = {
                         postId: data.articleId,
                         title: data.title,
@@ -40,8 +40,9 @@ function DetailPost() {
                         createdAt: data.createdAt,
                         userId: data.email,
                         nickname: data.nickname,
-                        userImage: data.profileimage,
+                        userImage: data.profileImage,
                     };
+
                     setPost(mappedData);
                 } else {
                     console.error("게시물을 불러오는데 실패했습니다.");

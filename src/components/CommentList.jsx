@@ -23,7 +23,7 @@ function CommentList({ postId, onOpenModal, onEditComment }) {
                     const mappedComments = data.map((comment) => ({
                         commentId: comment.commentId,
                         email: comment.email,
-                        userImage: comment.userImage,
+                        userImage: comment.profileImage,
                         nickname: comment.nickname,
                         createdAt: comment.createdAt,
                         comment: comment.content,
